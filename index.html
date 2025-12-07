@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <title>Merry Christmas Gift Ticket</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f7f7f7;
+      font-family: "Montserrat", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .ticket-wrapper {
+      width: 100%;
+      max-width: 1100px;
+      padding: 24px;
+    }
+
+    .ticket {
+      position: relative;
+      display: flex;
+      background:
+        linear-gradient(#ffffff, #ffffff) padding-box,
+        repeating-linear-gradient(45deg, #c4161c 0 12px, #ffffff 12px 24px) border-box;
+      border: 12px solid transparent;
+      border-radius: 18px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .ticket-left,
+    .ticket-center,
+    .ticket-right {
+      padding: 24px 28px;
+    }
+
+    .ticket-left {
+      width: 110px;
+      border-right: 2px dotted #e57373;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .ticket-left span {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      letter-spacing: 0.25em;
+      font-weight: 700;
+      font-size: 18px;
+      color: #c4161c;
+    }
+
+    .ticket-center {
+      flex: 1.4;
+      text-align: center;
+      border-right: 2px dotted #e57373;
+    }
+
+    .ticket-center h1 {
+      margin: 8px 0 4px;
+      font-family: "Pacifico", cursive;
+      font-size: 56px;
+      color: #c4161c;
+    }
+
+    .ticket-center h2 {
+      margin: 0 0 18px;
+      letter-spacing: 0.25em;
+      font-size: 18px;
+      text-transform: uppercase;
+      color: #c4161c;
+    }
+
+    .ticket-center p.subtitle {
+      margin: 0;
+      font-size: 16px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #555;
+    }
+
+    .ticket-right {
+      width: 340px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .entry-label {
+      text-align: right;
+      font-size: 16px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #555;
+      margin: 0 0 10px;
+    }
+
+    .puzzle {
+      font-size: 14px;
+      color: #444;
+    }
+
+    .puzzle strong {
+      color: #c4161c;
+    }
+
+    .puzzle label {
+      display: block;
+      margin: 10px 0 6px;
+      font-weight: 500;
+    }
+
+    .puzzle-input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 8px 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    button {
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      background-color: #c4161c;
+      color: #fff;
+    }
+
+    button:hover {
+      filter: brightness(1.05);
+    }
+
+    .msg {
+      min-height: 18px;
+      font-size: 13px;
+      margin: 4px 0;
+    }
+
+    .error { color: #c4161c; }
+    .ok    { color: #2e7d32; }
+
+    .code-box {
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px dashed #c4161c;
+      background: #fff9f9;
+      font-size: 13px;
+    }
+
+.code-box pre {
+  margin: 6px 0 0;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+    .hint-small {
+      font-size: 12px;
+      color: #777;
+      margin-top: 4px;
+    }
+
+    .hidden { display: none; }
+
+    @media (max-width: 800px) {
+      .ticket {
+        flex-direction: column;
+      }
+      .ticket-left {
+        width: 100%;
+        border-right: none;
+        border-bottom: 2px dotted #e57373;
+      }
+      .ticket-left span {
+        writing-mode: horizontal-tb;
+        transform: none;
+      }
+      .ticket-center {
+        border-right: none;
+        border-bottom: 2px dotted #e57373;
+      }
+      .ticket-right {
+        width: 100%;
+      }
+      .ticket-center h1 {
+        font-size: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="ticket-wrapper">
+    <div class="ticket">
+      <div class="ticket-left" id="secretClick">
+        <span>NO : 123456</span>
+      </div>
+
+      <div class="ticket-center">
+        <h1>Merry Christmas</h1>
+        <h2>GIFT TICKET</h2>
+        <p class="subtitle">FOLLOW THE RIDDLES TO REVEAL YOUR PRESENT</p>
+      </div>
+
+      <div class="ticket-right">
+        <p class="entry-label">ENTRY NO : 123456</p>
+
+        <div class="puzzle">
+          <p>
+            <strong>Як активувати подарунок?</strong><br>
+            Десь на цьому квитку захований невеличкий JS-заклятий код.
+            Спробуй натиснути на щось підозріле 😉
+          </p>
+
+          <div id="base64Box" class="code-box hidden">
+            <strong>Рівень 1. Ти знайшов(ла) прихований скрипт 🎄</strong>
+            <p>Ось перший шифр:</p>
+            <pre id="base64Text">0YLQstGW0Lkg0LrQu9GO0Yc6IG1lZ29nbw==</pre>
+
+            <label for="answer1">Введи ключ:</label>
+            <div class="puzzle-input-row">
+              <input id="answer1" type="text" placeholder="тут треба ключ" />
+              <button id="checkBtn1">далі</button>
+            </div>
+            <p id="msg1" class="msg"></p>
+          </div>
+
+          <div id="level2Box" class="code-box hidden">
+            <strong>Рівень 2. Ключ до промокоду 🔐</strong>
+            <p>
+              Деякі підказки браузер шепоче не на екрані, а в консолі розробника.
+            </p>
+
+            <label for="answer2">Введи слово-ключ (перевернуте):</label>
+            <div class="puzzle-input-row">
+              <input id="answer2" type="text" placeholder="перевернуте слово" />
+              <button id="checkBtn2">Далі</button>
+            </div>
+            <p id="msg2" class="msg"></p>
+
+            <div id="finalBox" class="code-box hidden" style="background:#f1fff3;border-color:#2e7d32;">
+              <strong>🎁 Твій подарунок - промокод на 3 місяці Megogo:</strong>
+              <pre id="giftCode"></pre>
+              <p class="hint-small">Саме час переглянути улюблені різдвяні фільми!</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const BASE64_WORD = "bWVnb2dv";
+
+  const encryptedPromo = [34, 34, 40, 40, 34, 34, 66, 84, 34, 74, 36, 47, 44, 35];
+
+  function xorDecrypt(arr, keyStr) {
+    const key = keyStr;
+    if (!key) return "";
+    const res = [];
+    for (let i = 0; i < arr.length; i++) {
+      const k = key.charCodeAt(i % key.length);
+      res.push(String.fromCharCode(arr[i] ^ k));
+    }
+    return res.join("");
+  }
+
+  const secretClick  = document.getElementById("secretClick");
+  const base64Box    = document.getElementById("base64Box");
+  const msg1         = document.getElementById("msg1");
+  const msg2         = document.getElementById("msg2");
+  const answer1Input = document.getElementById("answer1");
+  const answer2Input = document.getElementById("answer2");
+  const checkBtn1    = document.getElementById("checkBtn1");
+  const checkBtn2    = document.getElementById("checkBtn2");
+  const level2Box    = document.getElementById("level2Box");
+  const finalBox     = document.getElementById("finalBox");
+  const giftCodeEl   = document.getElementById("giftCode");
+
+  secretClick.addEventListener("click", () => {
+    base64Box.classList.remove("hidden");
+    msg1.textContent = "Красиво! Ти знайшов(ла) прихований рівень ✨";
+    msg1.className = "msg ok";
+    console.log("🎅 Hint: BASE64");
+  });
+
+  function checkLevel1() {
+    const val = answer1Input.value.trim().toLowerCase();
+    finalBox.classList.add("hidden");
+    level2Box.classList.add("hidden");
+    msg2.textContent = "";
+    msg2.className = "msg";
+
+    if (!val) {
+      msg1.textContent = "Спочатку введи слово, яке ти отримав(ла) з Base64 🙂";
+      msg1.className = "msg error";
+      return;
+    }
+
+    const decoded = atob(BASE64_WORD).toLowerCase();
+
+    if (val === decoded) {
+      msg1.textContent = "Так! Переходимо до таємного ключа ↓";
+      msg1.className = "msg ok";
+      level2Box.classList.remove("hidden");
+
+      console.log("😈 Stuck? Try calling hint2()");
+
+      window.hint2 = function() {
+        alert("Переверни слово з першого рівня і введи його як ключ 😉");
+      };
+
+    } else {
+      msg1.textContent = "Ммм, ні. Перевір написання або ще раз декодуй Base64 😉";
+      msg1.className = "msg error";
+    }
+  }
+
+  function checkLevel2() {
+    const key = answer2Input.value.trim();
+
+    if (!key) {
+      msg2.textContent = "Пошукай ще 😊";
+      msg2.className = "msg error";
+      finalBox.classList.add("hidden");
+      return;
+    }
+
+    const promo = xorDecrypt(encryptedPromo, key);
+    
+    if (!promo) {
+      msg2.textContent = "Ключ порожній або щось пішло не так.";
+      msg2.className = "msg error";
+      finalBox.classList.add("hidden");
+      return;
+    }
+
+    giftCodeEl.textContent = promo;
+    finalBox.classList.remove("hidden");
+    msg2.textContent = "Якщо бачиш осмислений код — ти все зробив(ла) правильно 🎄";
+    msg2.className = "msg ok";
+  }
+
+  checkBtn1.addEventListener("click", checkLevel1);
+  checkBtn2.addEventListener("click", checkLevel2);
+
+  answer1Input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") checkLevel1();
+  });
+  answer2Input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") checkLevel2();
+  });
+</script>
+
+</body>
+</html>
