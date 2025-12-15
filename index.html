@@ -214,6 +214,121 @@
         font-size: 40px;
       }
     }
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  display: none;
+}
+
+.modal.is-open { 
+  display: flex;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 26px 28px;
+  border-radius: 18px;
+  width: 92%;
+  max-width: 460px;
+  text-align: left;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.25);
+  animation: pop 0.25s ease-out;
+  line-height: 1.5;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 14px;
+  text-align: center;
+  color: #c4161c;
+}
+
+.modal-steps {
+  padding-left: 18px;
+  margin: 0 0 14px;
+}
+
+.modal-steps li {
+  margin-bottom: 8px;
+}
+
+.modal-steps a {
+  color: #c4161c;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.modal-steps a:hover {
+  text-decoration: underline;
+}
+
+.modal-note {
+  font-size: 13px;
+  color: #444;
+  margin: 10px 0;
+}
+
+.modal-warning {
+  font-size: 13px;
+  color: #7a1f1f;
+  background: #fff3f3;
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin: 12px 0;
+}
+
+.modal-expire {
+  font-size: 13px;
+  color: #555;
+  margin: 12px 0 16px;
+}
+
+.modal-action {
+  display: block;
+  text-align: center;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #c4161c;
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  margin-bottom: 12px;
+}
+
+.modal-action:hover {
+  filter: brightness(1.08);
+}
+
+.modal-close {
+  width: 100%;
+  background: #eee;
+  color: #333;
+  border: none;
+  border-radius: 12px;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+
+@keyframes pop {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -240,7 +355,7 @@
           </p>
 
           <div id="base64Box" class="code-box hidden">
-            <strong>Рівень 1. Ти знайшов(ла) прихований скрипт 🎄</strong>
+            <strong>Рівень 1. Ти знайшов прихований скрипт 🎄</strong>
             <p>Ось перший шифр:</p>
             <pre id="base64Text">0YLQstGW0Lkg0LrQu9GO0Yc6IG1lZ29nbw==</pre>
 
@@ -258,7 +373,7 @@
               Деякі підказки браузер шепоче не на екрані, а в консолі розробника.
             </p>
 
-            <label for="answer2">Введи слово-ключ (перевернуте):</label>
+            <label for="answer2">Введи слово-ключ:</label>
             <div class="puzzle-input-row">
               <input id="answer2" type="text" placeholder="перевернуте слово" />
               <button id="checkBtn2">Далі</button>
@@ -268,7 +383,13 @@
             <div id="finalBox" class="code-box hidden" style="background:#f1fff3;border-color:#2e7d32;">
               <strong>🎁 Твій подарунок - промокод на 3 місяці Megogo:</strong>
               <pre id="giftCode"></pre>
-              <p class="hint-small">Саме час переглянути улюблені різдвяні фільми!</p>
+              <p class="hint-small">
+  Саме час переглянути улюблені різдвяні фільми!
+  <a href="#" id="openModal" style="margin-left:6px;color:#c4161c;font-weight:600;">
+    Інструкція
+  </a>
+</p>
+
             </div>
           </div>
 
@@ -277,10 +398,63 @@
     </div>
   </div>
 
+<div id="instructionModal" class="modal">
+  <div class="modal-content">
+    <h3>🎁 Як активувати подарунок</h3>
+
+    <ol class="modal-steps">
+      <li>
+        Перейди на сайт
+        <a href="https://megogo.net/ua/code" target="_blank" rel="noopener">
+          MEGOGO
+        </a>
+        (або скористайся кнопкою нижче)
+      </li>
+      <li>
+        Авторизуйся за номером телефону,
+        до якого прив’язаний твій профіль
+      </li>
+      <li>
+        Введи код у поле
+        <strong>«Ввести промокод»</strong>
+      </li>
+    </ol>
+
+    <p class="modal-note">
+      Передплата активується на твій профіль
+      та починає діяти з моменту введення коду.
+    </p>
+
+    <p class="modal-warning">
+      Якщо у тебе вже є активна передплата —
+      рекомендую дочекатися її завершення,
+      а потім вводити новий код.
+    </p>
+
+    <p class="modal-expire">
+      ⏳ Термін дії коду — <strong>6 місяців</strong> з моменту покупки (15.12.2025)
+    </p>
+
+    <a
+      href="https://megogo.net/ua/code"
+      target="_blank"
+      rel="noopener"
+      class="modal-action"
+    >
+      Активувати код на MEGOGO
+    </a>
+
+    <button id="closeModal" class="modal-close">
+      Закрити
+    </button>
+  </div>
+</div>
+
+
 <script>
   const BASE64_WORD = "bWVnb2dv";
 
-  const encryptedPromo = [34, 34, 40, 40, 34, 34, 66, 84, 34, 74, 36, 47, 44, 35];
+  const encryptedPromo = [21, 16, 13, 30, 15, 29, 86, 80];
 
   function xorDecrypt(arr, keyStr) {
     const key = keyStr;
@@ -307,7 +481,7 @@
 
   secretClick.addEventListener("click", () => {
     base64Box.classList.remove("hidden");
-    msg1.textContent = "Красиво! Ти знайшов(ла) прихований рівень ✨";
+    msg1.textContent = "Чудово! Ти знайшов прихований рівень ✨";
     msg1.className = "msg ok";
     console.log("🎅 Hint: BASE64");
   });
@@ -320,7 +494,7 @@
     msg2.className = "msg";
 
     if (!val) {
-      msg1.textContent = "Спочатку введи слово, яке ти отримав(ла) з Base64 🙂";
+      msg1.textContent = "Спочатку введи слово, яке ти отримав з Base64 🙂";
       msg1.className = "msg error";
       return;
     }
@@ -365,7 +539,7 @@
 
     giftCodeEl.textContent = promo;
     finalBox.classList.remove("hidden");
-    msg2.textContent = "Якщо бачиш осмислений код — ти все зробив(ла) правильно 🎄";
+    msg2.textContent = "Якщо бачиш осмислений код — ти все зробив правильно 🎄";
     msg2.className = "msg ok";
   }
 
@@ -378,7 +552,35 @@
   answer2Input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") checkLevel2();
   });
-</script>
 
+  function setupModal() {
+  const openModal = document.getElementById("openModal");
+  const modal = document.getElementById("instructionModal");
+  const closeModal = document.getElementById("closeModal");
+
+  if (!openModal || !modal || !closeModal) return;
+
+  const open = () => modal.classList.add("is-open");
+  const close = () => modal.classList.remove("is-open");
+
+  openModal.addEventListener("click", (e) => {
+    e.preventDefault();
+    open();
+  });
+
+  closeModal.addEventListener("click", close);
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) close(); 
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") close();
+  });
+}
+
+setupModal();
+
+</script>
 </body>
 </html>
