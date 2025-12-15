@@ -317,6 +317,30 @@
   font-size: 13px;
 }
 
+.puzzle-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.puzzle-input-row input[type="text"]{
+  flex: 1 1 auto;
+  min-width: 0;  
+}
+
+.puzzle-input-row button{
+  flex: 0 0 auto; 
+  white-space: nowrap;
+}
+
+@media (max-width: 420px) {
+  .puzzle-input-row {
+    flex-direction: column;
+  }
+  .puzzle-input-row button {
+    width: 100%;
+  }
+}
+
 
 @keyframes pop {
   from {
